@@ -1,5 +1,14 @@
-import { useState } from "react"
+import { useState } from "react";
+import PropTypes from "prop-types";
 
+/*
+    NOTE -
+    We can use TypeScript for type which make our project easy.
+    But here we have to check it here manually as it is js.
+    We are using prop-types for this.
+*/
+
+//necessary css
 const containerStyle = {
     display: "flex",
     alignItems: "center",
@@ -10,20 +19,35 @@ const starContainerStye = {
     display: "flex",
 }
 
+StarRating.prototype = {
+    maxRating: PropTypes.number,
+    defaultRating: PropTypes.number,
+    color: PropTypes.string,
+    size: PropTypes.number,
+    messages: PropTypes.array,
+    className: PropTypes.string,
+    onSetRating: PropTypes.func,
+}
+
 
 export default function StarRating({ 
     maxRating = 5, 
     color = '#fcc419',
     size = 48,
-    className = ""
+    className = "",
+    messages = [],
+    defaultRating = 0,
+    onSetRating,
 }) {
-    const [rating , setRating ] = useState(0);
+    const [rating , setRating ] = useState(defaultRating);
     const [temprating , setTempRating] = useState(0);
     
-    function handleRating ( rating){
-        setRating(rating)
+    function handleRating ( rating ){
+        setRating(rating);
+        onSetRating(rating);
     }
 
+    //css that can be changed using props
     const textStyle = {
         lineHeight: "1",
         margin: "0",
@@ -47,13 +71,17 @@ export default function StarRating({
                 />
             ))}
         </div>
-        <p style={textStyle} > {temprating ||  rating || ""} </p>
+        <p style={textStyle} > { messages.length === maxRating ? 
+        messages[temprating ? temprating-1: rating -1 ] : 
+        temprating ||  rating || ""} </p>
     </div>
     )
 }
 
 
 function Star({onRate , full , onHoverIn , onHoverOut, color , size}) {
+    
+    //css that can be changed using props
     const starStyle = {
         width: `${size}px`,
         height: `${size}px`,
