@@ -12,6 +12,7 @@
 /build
 .env
 src/constant.js
+src/App.js
 # misc
 .DS_Store
 .env.local

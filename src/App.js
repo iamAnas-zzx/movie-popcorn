@@ -1,3 +1,5 @@
+// For practice ..
+
 import { useState } from "react";
 
 const tempMovieData = [
